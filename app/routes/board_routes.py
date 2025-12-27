@@ -53,7 +53,7 @@ def replace_board(board_id):
 def create_card_on_board(board_id):
     board = validate_model(Board, board_id)
     data = request.get_json()
-    return create_model(Card, {**data, "board_id": board.board_id})
+    return create_model(Card, {**data, "board_id": board_id})
 
     # solution1
     # card = Card.from_dict(data)
@@ -70,7 +70,7 @@ def create_card_on_board(board_id):
 
     # return card.to_dict(), 201
         
-@bp.put("/<board_id>/cards/card_id")
+@bp.put("/<board_id>/cards/<card_id>")
 def edit_card_on_board(board_id, card_id):
     board = validate_model(Board, board_id)
     card = validate_model(Card, card_id)
@@ -83,11 +83,11 @@ def edit_card_on_board(board_id, card_id):
     if "message" in data:
         card.message = data["message"]
     if "likes_count" in data:
-        card.like_count = data["likes_count"]
+        card.likes_count = data["likes_count"]
     
     db.session.commit()
     
-    return card.to_dict, 200
+    return card.to_dict(), 200
 
 
 @bp.delete("/<board_id>")
